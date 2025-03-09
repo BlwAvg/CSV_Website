@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NSAE Bookmarks</title>
+  <style>
+    /* ---------------------
+       DARK THEME STYLING
+    ---------------------- */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000000;
+      color: #f0f0f0;
+    }
+    header {
+      background-color: #1c1c1c;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #444;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      text-align: center;
+    }
+    .timestamp {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    nav {
+      background-color: #1c1c1c;
+      padding: 10px;
+      border-bottom: 2px solid #444;
+    }
+    nav a {
+      color: #f0f0f0;
+      margin-right: 15px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    h2 {
+      border-bottom: 2px solid #444;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      text-transform: capitalize; /* Make headings 'Tools', 'Team', etc. */
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    /* Indent nested UL */
+    ul ul {
+      padding-left: 1em;
+      border-left: 2px solid #444;
+      margin-left: 1em;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    a.bookmark-link {
+      color: #86c5da;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a.bookmark-link:hover {
+      text-decoration: underline;
+    }
+    .summary {
+      font-style: italic;
+      color: #cfcfcf;
+      font-size: 0.9rem;
+      display: block; /* or inline; block puts it on its own line */
+      margin-left: 1.5rem;
+      margin-top: 2px;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #1c1c1c;
+      border-top: 2px solid #444;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NSAE Bookmarks</h1>
+    <div class="timestamp" id="timestamp"></div>
+  </header>
+
+  <nav id="navbar">
+    <!-- JavaScript will insert navigation links here -->
+  </nav>
+
+  <main id="content">
+    <!-- JavaScript will insert sections and links here -->
+  </main>
+
+<footer>
+    <span class="flipped">&copy;</span> <span id="year"></span> NASE - No rights reserved. Steal this code!
+</footer>
+
+  <style>
+      .flipped {
+            display: inline-block;
+            transform: scaleX(-1);
+      }
+  </style>
+</footer>
+
+  <!-- Load the JavaScript from a separate file -->
+  <script src="parser.js"></script>
+  <script>
+    // This generates a time stamp. This is used for determining if the page is cached.
+    // Set year
+         document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Set timestamp
+         const timestampElement = document.getElementById('timestamp');
+         const now = new Date();
+         timestamp.textContent = `Refreshed: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+    </script>
+</body>
+</html>
