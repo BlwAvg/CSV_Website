@@ -1,23 +1,8 @@
 // ==============================
 // parser.js
 // ==============================
-
-// Wait for the DOM to be fully loaded
-document.addEventListener("DOMContentLoaded", () => {
-  // Set the current year in the footer
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  // Fetch the CSV file (adjust the path if necessary)
-  fetch('links.csv?t=' + Date.now()) // fetching the file and date prevents caching. Forces the file to gerate with each refresh.
-    .then(response => response.text())
-    .then(csvText => {
-      processCSVData(csvText);
-    })
-    .catch(err => console.error("Error loading CSV: ", err));
-});
-
 /**
- * A robust CSV-to-array function.
+ * A CSV-to-array function.
  * This regex handles basic CSV formatting including quoted fields.
  */
 function csvToArray(strData, strDelimiter) {
@@ -60,6 +45,10 @@ function csvToArray(strData, strDelimiter) {
  *  - Groups items by section.
  *  - Sorts sections by sectionOrder (or alphabetically) and links by linkOrder (or alphabetically).
  *  - Calls functions to build the navigation and content.
+ *
+ * Usage: 
+ *   1) Fetch or otherwise load the CSV text in another script.
+ *   2) Pass the CSV text to this function, e.g. processCSVData(csvText).
  */
 function processCSVData(csvText) {
   const rows = csvToArray(csvText);
@@ -79,35 +68,34 @@ function processCSVData(csvText) {
     return obj;
   });
 
-// Group items by their "section"
+  // Group items by their "section"
   const sections = {};
-
   items.forEach(item => {
-      // 1. Check if this row is entirely blank (all fields empty)
-      const isBlankRow = Object.values(item).every(val => !val.trim());
-      if (isBlankRow) {
-            console.log("Skipping blank row:", item);
-            return; // Stop processing this row
-      }
+    // 1. Check if this row is entirely blank (all fields empty)
+    const isBlankRow = Object.values(item).every(val => !val.trim());
+    if (isBlankRow) {
+      console.log("Skipping blank row:", item);
+      return; // Stop processing this row
+    }
 
-      console.log("Parsed item:", item);
-      // 2. Determine the section name (or mark as error if empty)
-      let sectionName = item.section;
-      if (!sectionName || sectionName.trim() === "") {
-            sectionName = "***ERROR: UNDEFINED***";
-      }
+    console.log("Parsed item:", item);
+    // 2. Determine the section name (or mark as error if empty)
+    let sectionName = item.section;
+    if (!sectionName || sectionName.trim() === "") {
+      sectionName = "***ERROR: UNDEFINED***";
+    }
 
-      // 3. If this section doesn't exist yet, create it
-      if (!sections.hasOwnProperty(sectionName)) {
-            sections[sectionName] = {
-                    sectionOrder: item.sectionOrder ? parseInt(item.sectionOrder) : Infinity,
-                    name: sectionName,
-                    items: []
-            };
-      }
+    // 3. If this section doesn't exist yet, create it
+    if (!sections.hasOwnProperty(sectionName)) {
+      sections[sectionName] = {
+        sectionOrder: item.sectionOrder ? parseInt(item.sectionOrder) : Infinity,
+        name: sectionName,
+        items: []
+      };
+    }
 
-      // 4. Push the current item into the appropriate section
-      sections[sectionName].items.push(item);
+    // 4. Push the current item into the appropriate section
+    sections[sectionName].items.push(item);
   });
 
   // Convert the sections object to an array and sort by sectionOrder, then alphabetically.
@@ -133,6 +121,10 @@ function processCSVData(csvText) {
  */
 function buildNavigation(sections) {
   const nav = document.getElementById("navbar");
+  // Optionally clear any old links if needed
+  // const oldLinks = nav.querySelectorAll("a");
+  // oldLinks.forEach(a => a.remove());
+
   sections.forEach(section => {
     const a = document.createElement("a");
     // Create an anchor link based on the section name.
@@ -148,6 +140,9 @@ function buildNavigation(sections) {
  */
 function buildContent(sections) {
   const content = document.getElementById("content");
+  // Optionally clear old content if reloading
+  // content.innerHTML = "";
+
   sections.forEach(section => {
     const sectionEl = document.createElement("section");
     sectionEl.id = section.name.toLowerCase().replace(/\s+/g, "-");
@@ -190,6 +185,7 @@ function buildContent(sections) {
         a.target = "_blank";
         a.rel = "noopener noreferrer";
         li.appendChild(a);
+
         if (item.summary) {
           const summarySpan = document.createElement("span");
           summarySpan.classList.add("summary");
