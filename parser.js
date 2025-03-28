@@ -1,3 +1,7 @@
+// ==============================
+// parser.js
+// ==============================
+
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
   // Set the current year in the footer
