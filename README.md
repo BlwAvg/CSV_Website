@@ -28,10 +28,6 @@ The CSV file should include the following columns:
 
 ## Notes & Troubleshooting
 - **Caching Considerations**: Updates to `parser.js` and `links.csv` might not immediately appear on GitHub Pages due to browser and server caching. If changes are not visible, try clearing your cache or performing a hard refresh.
- 
-# What I Need help with!
-- UPDATE THE LINKS!
-- The intent of the refresh timer was to show when the page was updated from the last commit. Essentially so you could tell if you had an old cached page or not. This did not work as intended and just shows the current time. This need to be fixed or removed.
 
 ## Roadmap?
 - Settings Page (For making custom order, stored in a local cookie)
